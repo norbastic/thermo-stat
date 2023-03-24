@@ -1,6 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Paper, Typography } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
+import { DeviceInfo } from 'gree-lib';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -11,10 +12,10 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
 export interface MainListProps {
-    scannedDevices: string[]; 
+    scannedDevices: DeviceInfo[] | undefined; 
 }
 
-export const MainList = () => {
+export const MainList = ({scannedDevices}: MainListProps) => {
     return(
         <Box padding={5} sx={{ flexGrow: 1 }}>
             <Accordion>
@@ -27,7 +28,16 @@ export const MainList = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        ...
+                        {
+                            scannedDevices?.map(deviceInfo => {
+                                return (
+                                    <div key={deviceInfo.mac}>
+                                        {deviceInfo.name} : {deviceInfo.address} : {deviceInfo.mac}
+                                    </div>
+                                    
+                                );
+                            })
+                        }                        
                     </Typography>
                 </AccordionDetails>
             </Accordion>
